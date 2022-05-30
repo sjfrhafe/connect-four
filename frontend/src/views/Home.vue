@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <b-button>Neues Spiel</b-button>
-    <b-button>Spiel beitreten</b-button>
+    <h1>Hi {{$store.getters.me.name}} 👋</h1>
+    <b-button>New Game</b-button>
+    <b-button>Join Game</b-button>
   </div>
 </template>
 
@@ -10,6 +11,9 @@
 export default {
   name: 'Home',
   components: {
+  }, 
+  mounted(){
+    this.$store.dispatch('fetchMe')
   }
 }
 </script>
