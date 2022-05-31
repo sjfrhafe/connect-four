@@ -14,6 +14,11 @@ const routes = [
     path: '/impressum',
     name: 'Impressum',
     component: () => import('../views/Impressum.vue')
+  }, 
+  {
+    path: '/play/:key', 
+    name: 'Play', 
+    component: () => import('../views/Play.vue')
   }
 ]
 

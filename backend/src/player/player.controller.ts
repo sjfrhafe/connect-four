@@ -9,14 +9,9 @@ export class PlayerController {
     
     @Get('me')
     async me(@Session() session): Promise<Player>{
-
-        if(!session.player){
-            session.player = {}
-            session.player.isTemp = true
-            session.player.name = await this.playerService.getRandomPlayerName()
-        }
+        if(!session.player)
+            session.player = await this.playerService.createAnonymousPlayer()
 
         return session.player
-
     }
 }
