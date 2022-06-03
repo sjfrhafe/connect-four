@@ -54,11 +54,8 @@ export abstract class Room{
             this.disposeIfEmpty()
         })
 
-        //join or rejoin
         this.players = this.players.filter(target => target.player.id !== player.id)
         this.players.push({player, socket})
-
-
 
         player.active = true
         this.onJoin(player)
@@ -95,7 +92,6 @@ export function GameRoom<T extends { new(...args: any[]): {} }>(Base: T) {
         }
     }
 }
-
 
 export function gMessage(requestName: string) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
