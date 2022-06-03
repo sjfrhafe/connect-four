@@ -3,13 +3,20 @@ import { ConfigService } from "@nestjs/config";
 import { createClient } from 'redis';
 import { Player } from 'src/player/player.entity';
 import { sign, verify } from 'jsonwebtoken'
+import { Socket } from 'socket.io';
+import { Room } from './room/room.lib';
+import { ConnectFourRoom } from './room/connect-four.room';
+import { RoomManager } from './room/room.manager';
 
 @Injectable()
 export class GameService {
 
     private redisClient
+    private roomManager: RoomManager
 
     constructor(private readonly configService: ConfigService){
+        this.roomManager = new RoomManager()        
+        
         this.redisClient = createClient({
             legacyMode: true, 
             url: configService.get('REDIS_URL')
@@ -20,7 +27,7 @@ export class GameService {
 
     async createGame(player: Player): Promise<string>{
         const key = await this.createKey(10)
-        await this.redisClient.set('game:' + key, JSON.stringify({key, players: [player]}))
+        this.roomManager.createRoom('connect-four', key)
         return key
     }
 
@@ -40,6 +47,10 @@ export class GameService {
 
     async verifyJoinToken(token: string): Promise<any>{
         return verify(token, this.configService.get('JOINTOKEN_SECRET'))
+    }
+
+    joinRoom(player: Player, socket: Socket, key: string){
+        this.roomManager.joinRoom(key, player, socket)
     }
 
 }
