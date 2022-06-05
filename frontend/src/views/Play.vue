@@ -1,48 +1,41 @@
 <template>
   <div class="play">
+      <side-bar />
+
       <ul>
-          <li v-for='player in players' :key="player.id">{{player}}</li>
+          <li v-for='player in $store.getters.gameState.playerlist' :key="player.id">{{player}}</li>
       </ul>
 
-      <div>{{state}}</div>
-
-      <b-button @click='addOne'>Count++ {{count}}</b-button>
+        <div style='color: red;'>
+            {{$store.getters.key}}
+        </div>
+      <b-button @click='addOne'>Count++ {{$store.getters.gameState.counter || ''}}</b-button>
   </div>
 </template>
 
 <script>
-import { io } from 'socket.io-client'
+import SideBar from '@/components/SideBar.vue'
 
 export default {
     data: () => ({
         joinToken: null, 
-        socket: null, 
-        players: [], 
-        state: {}
+        socket: null
     }), 
     created(){
-        this.joinToken = this.$route.params.joinToken
+        this.$store.commit('setJoinToken', this.$route.params.joinToken)
 
-        this.socket = io('ws://localhost:3000', {
-            transports: ['websocket'], 
-            path: '/gamews', 
-            auth: {token: this.joinToken}
-        })
-        
-        this.socket.on('update-playerlist', players => {
-            this.players = JSON.parse(players)
-        })
-
-        this.socket.on('set-state', state => {
-            this.state = state
-        })
-
-        this.socket.onclose = () => this.$router.push({name: 'Home'})
+        this.$store.dispatch('connectWs')
     }, 
     methods: {
         addOne(){
-            this.socket.emit('add-one')
+            this.emit('add-one')
+        }, 
+        emit(method, params){
+            this.$store.dispatch('emit', {method, params})
         }
+    }, 
+    components: {
+        SideBar
     }
 }
 </script>
@@ -50,7 +43,7 @@ export default {
 <style>
 .play{
     padding: 20px;
-  display: inline-block;
-  max-width: 400pt;
+    display: inline-block;
+    max-width: 400pt;
 }
 </style>
