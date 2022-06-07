@@ -1,6 +1,6 @@
 <template>
   <div class='player-list-item'>
-      <img class="avatar" src="@/assets/avatar_dummy.png" alt="">
+      <img class="avatar" src="@/assets/avatar_dummy.jpg" alt="">
       <div class='display-name'>{{displayName}}</div>
   </div>
 </template>
@@ -39,6 +39,7 @@ export default {
 
 .avatar{
     height: 2em;
+    border-radius: 50%;
 }
 
 .display-name{

@@ -13,9 +13,6 @@ export default {
 
 <style>
 .navigation{
-  position: fixed;
-  left: 0;
-  bottom: 0;
   background-color: #111;
   width: 100vw;
   padding: 10px 20px;

@@ -1,17 +1,18 @@
 <template>
   <div class="sidebar">
-      <h2>invite</h2>
+      <h4>invite</h4>
       <div class="input-group mb-3">
             <b-input :value='$store.getters.key' size='sm' class='mb-2'/>
             <b-button block variant='primary' size='sm'>Copy Link</b-button>
       </div>
       <hr>
-      <h2>players</h2>
+      <h4>players</h4>
       <player-list />
       <div class="input-group mt-auto">
         <b-button varinat='dark' block size='sm'>Report Error</b-button>
         <b-button variant='danger' block size='sm'>Leave Room</b-button>
       </div>
+      <a href='https://de.freepik.com/vektoren/baby'>Baby Vektor erstellt von catalyststuff - de.freepik.com</a>
   </div>
 </template>
 
@@ -29,18 +30,14 @@ export default {
 .sidebar{
     display: flex;
     flex-direction: column;
-    position: fixed;
-    top: 0; 
-    left: 0; 
     background-color: #222;
-    width: 170pt;
     padding: 10pt;
-    height: calc(100vh - 20pt);
+    height: 100%;
     text-align: left;
     color: white;
 }
 
-.sidebar h2{
+.sidebar h4{
     margin: 0 10pt 4pt;
 }
 
