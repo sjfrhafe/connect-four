@@ -9,8 +9,8 @@
       <h4>players</h4>
       <player-list />
       <div class="input-group mt-auto">
-        <b-button varinat='dark' block size='sm'>Report Error</b-button>
-        <b-button variant='danger' block size='sm'>Leave Room</b-button>
+        <b-button varinat='dark' block size='sm' target='_blank' href='https://github.com/sjfrhafe/connect-four/issues/new/choose'>Report Error</b-button>
+        <b-button variant='danger' block size='sm' @click="$router.push('/')">Leave Room</b-button>
       </div>
   </div>
 </template>
