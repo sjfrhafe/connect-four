@@ -12,7 +12,6 @@
         <b-button varinat='dark' block size='sm'>Report Error</b-button>
         <b-button variant='danger' block size='sm'>Leave Room</b-button>
       </div>
-      <a href='https://de.freepik.com/vektoren/baby'>Baby Vektor erstellt von catalyststuff - de.freepik.com</a>
   </div>
 </template>
 
