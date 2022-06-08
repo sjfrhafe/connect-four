@@ -7,11 +7,23 @@ export class ConnectFourRoom extends Room{
         key: '', 
         counter: 0, 
         playerlist: [], 
-        points: {}
+        points: {}, 
+        board: [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], 
+        hover: {player: 0, position: 0}, 
+        activePlayers: []
     }
-    
+
+    get allPlayers(): Player[]{
+        return this.players.map(item => item.player)
+    }
+
+    get inactiveLPlayers(){
+        return this.allPlayers.filter((player: Player) => this.state.activePlayers.includes(player))
+    }
+
     initialized() {
         this.setState({key: this.key})
+        this.newCoin(1)
     }
 
     onAuth(player: Player) {
@@ -20,6 +32,8 @@ export class ConnectFourRoom extends Room{
 
     onJoin(player: Player) {
         this.state.points[player.id] = 0
+
+
         this.setState({playerlist: this.players.map(item => item.player), points: this.state.points})
     }
 
@@ -31,9 +45,13 @@ export class ConnectFourRoom extends Room{
         console.log('raum sollte zerstört werden')
     }
 
-    @gMessage('add-one')
-    addOne(player, params){
-        this.state.points[player.id]++
-        this.setState({counter: this.state.counter + 1, points: this.state.points})
+    @gMessage('move')
+    addOne(player, {direction}){
+        this.state.hover.position += direction
+        this.setState({hover: this.state.hover})
+    }
+
+    newCoin(player: number){
+        this.setState({hover: {player, position: 0}})
     }
 }

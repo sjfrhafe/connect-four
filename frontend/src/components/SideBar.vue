@@ -37,7 +37,11 @@ export default {
 }
 
 .sidebar h4{
-    margin: 0 10pt 4pt;
+    margin: 0 10pt 8pt;
+    font-size: .9em;
+    font-weight: bold;
+    padding-bottom: 8pt;
+    border-bottom: solid 1pt white;
 }
 
 .input-group{
