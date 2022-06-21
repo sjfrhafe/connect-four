@@ -99,11 +99,14 @@ export default {
             coinSprite.remove = false
         }, 
         gameloop(){
+            if(!this.$store.getters.gameState.coins)
+                return 
+
             this.sprites.forEach(sprite => {
                 sprite.remove = true
             })
 
-            this.$store.getters.gameState.coins?.forEach(coin => {
+            this.$store.getters.gameState.coins.forEach(coin => {
                 if(!this.sprites.find(({id}) => id === coin.id)){
                     this.addCoin(coin)
                 }
