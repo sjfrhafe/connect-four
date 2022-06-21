@@ -24,7 +24,7 @@ export default {
     }, 
     methods: {
         copyLink(){
-            navigator.clipboard.writeText('http://localhost:8080/#/getstarted?t=' + this.$store.getters.key)
+            navigator.clipboard.writeText('https://games.simplyfred.de/#/getstarted?t=' + this.$store.getters.key)
             this.$store.dispatch('alert', {message: 'Link Copied', type: 'success'})
         }
     }

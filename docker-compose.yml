@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  redis: 
+    image: redis/redis-stack:latest
+    ports:
+      - 6379:6379
+  backend: 
+    image: registry.simplyfred.de/cf-backend:latest
+    ports: 
+      - 3000:3000
+    environment:
+      - SESSION_SECRET=supersecure
+      - REDIS_URL=redis://redis:6379
+      - JOINTOKEN_SECRET=auchsupersicher
+  frontend: 
+    image: registry.simplyfred.de/cf-frontend:latest
+    ports:
+      - 8080:8080

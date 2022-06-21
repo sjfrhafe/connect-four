@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Player } from './player.entity';
-import { faker } from '@faker-js/faker'
 import { createHash } from 'crypto'
 
 @Injectable()
@@ -23,7 +22,7 @@ export class PlayerService {
     }
 
     async getRandomPlayerName(): Promise<string>{
-        return `${faker.hacker.ingverb()} ${faker.animal.type()}`
+        return `Anonymous`
     }
 
     async getRandomPlayerAvatar(): Promise<string>{ //for testing purposes
