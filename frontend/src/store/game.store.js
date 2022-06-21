@@ -28,7 +28,7 @@ export default {
     actions: {
         connectWs({commit, dispatch, state}){
             commit('closeSocket')
-            const socket = io('ws://localhost:3000', {
+            const socket = io('games.simplyfred.de', {
                 transports: ['websocket'], 
                 path: '/gamews', 
                 auth: {token: state.joinToken}
