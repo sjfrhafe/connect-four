@@ -1,7 +1,8 @@
 <template>
-  <div class='player-list-item'>
+  <div :class="{'player-list-item': true, 'offline': !player.active}">
       <img class="avatar" src="@/assets/avatar_dummy.jpg" alt="">
       <div class='display-name'>{{displayName}}</div>
+      <b-badge v-if='$store.getters.me.id === player.id' class='ml-2'>You</b-badge>
   </div>
 </template>
 
@@ -44,5 +45,19 @@ export default {
 
 .display-name{
     margin-left: 1em;
+    position: relative;
+}
+
+.offline > .avatar{
+    filter: grayscale(1);
+}
+
+.offline > .display-name::after{
+    content: 'lost connection';
+    position: absolute;
+    left: 0;
+    bottom: -.7em;
+    font-size: .6em;
+    color: red;
 }
 </style>

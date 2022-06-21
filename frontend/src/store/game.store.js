@@ -36,7 +36,6 @@ export default {
 
             socket.on('set-state', state => {
                 commit('updateGameState', JSON.parse(state))
-                console.log(state)
             })
 
             socket.onclose = () => router.push({name: 'Home'})

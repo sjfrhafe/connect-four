@@ -8,6 +8,7 @@ export class GameController {
 
     @Get('create')
     async create(@Session() session): Promise<string>{
+        console.log('create')
         return await this.gameService.createGame(session.player)
     }
 

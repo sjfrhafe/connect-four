@@ -1,54 +1,27 @@
 <template>
-      <div class="gamecontainer" ref='gamecontainer'></div>
+      <div class="gamecontainer" ref='gamecontainer'>
+          <div class="over">
+              <p v-if='$store.getters.gameState.currentTurnPlayer && $store.getters.gameState.status === "running"'>it is {{$store.getters.gameState.currentTurnPlayer.name}}'s turn</p>
+              <p v-if='$store.getters.gameState.message'>{{$store.getters.gameState.message}}</p>
+              <b-button v-if='$store.getters.gameState.status === "finished"' @click="emit('start')">Play Again</b-button>
+              <p v-if='$store.getters.gameState.status === "waiting"'>Waiting for Opponent</p>
+              <b-button v-if='$store.getters.gameState.status === "prepare"' @click="emit('start')">Start Game</b-button>
+            </div>
+      </div>
 </template>
 
 <script>
 import * as PIXI from 'pixi.js'
+import * as keyboardjs from 'keyboardjs'
+
 const resources = PIXI.Loader.shared.resources
 const loader = PIXI.Loader.shared
 const Sprite = PIXI.Sprite
 
-function keyboard(keyCode) {
-    const key = {};
-    key.code = keyCode;
-    key.isDown = false;
-    key.isUp = true;
-    key.press = undefined;
-    key.release = undefined;
-    //The `downHandler`
-    key.downHandler = (event) => {
-    if (event.keyCode === key.code) {
-        if (key.isUp && key.press) {
-        key.press();
-        }
-        key.isDown = true;
-        key.isUp = false;
-    }
-    event.preventDefault();
-    };
-
-    //The `upHandler`
-    key.upHandler = (event) => {
-    if (event.keyCode === key.code) {
-        if (key.isDown && key.release) {
-        key.release();
-        }
-        key.isDown = false;
-        key.isUp = true;
-    }
-    event.preventDefault();
-    };
-
-    //Attach event listeners
-    window.addEventListener("keydown", key.downHandler.bind(key), false);
-    window.addEventListener("keyup", key.upHandler.bind(key), false);
-    return key;
-}
-
 export default {
     data: () => ({
         game: null, 
-        sprites: {}
+        sprites: []
     }), 
     mounted(){
         this.setupGame()
@@ -58,6 +31,7 @@ export default {
         this.game.ticker.remove(this.gameloop, this.game)
         this.game.destroy()
         loader.reset()
+        keyboardjs.reset()
     }, 
     methods: {
         addOne(){
@@ -67,13 +41,6 @@ export default {
             this.$store.dispatch('emit', {method, params})
         }, 
         setup(){
-            const cat = new Sprite(resources['connect-four/coin_red.png'].texture);
-            this.game.stage.addChild(cat);
-            this.sprites.cat = cat
-            
-            cat.x = 20
-            cat.y = 20
-
             this.game.ticker.add(this.gameloop, this.game)
         }, 
         setupGame(){
@@ -85,27 +52,71 @@ export default {
                 resolution: 1
             })
 
-            const left = keyboard(37)
-            left.press = () => {
-                this.emit('move', {direction: 1})
-            }
+            keyboardjs.bind('left', () => {
+                this.emit('move', {direction: -1})
+            })
 
+            keyboardjs.bind('right', () => {
+                this.emit('move', {direction: 1})
+            })
+
+            keyboardjs.bind('down', () => {
+                this.emit('down')
+            })
 
             loader
                 .add('connect-four/coin_red.png')
+                .add('connect-four/coin_yellow.png')
                 .load(this.setup)
 
             this.$refs.gamecontainer.appendChild(this.game.view)
 
         }, 
+        addCoin(coin){
+            let coinSprite = new Sprite(resources[coin.playerOne ? 'connect-four/coin_red.png' : 'connect-four/coin_yellow.png'].texture)
+            this.game.stage.addChild(coinSprite);
+            this.sprites.push({id: coin.id, sprite: coinSprite, remove: false})
+        }, 
+        positionCoin(coin){
+            let coinSprite = this.sprites.find(({id}) => id === coin.id)
+            coinSprite.sprite.x = coin.position.x * 100 + 10
+            coinSprite.sprite.y = coin.position.y * 100 + 10
+            coinSprite.remove = false
+        }, 
         gameloop(){
-            this.sprites.cat.x = (this.$store.state.gameStore.gameState.hover?.position || 0) * 40
+            this.sprites.forEach(sprite => {
+                sprite.remove = true
+            })
+
+            this.$store.getters.gameState.coins.forEach(coin => {
+                if(!this.sprites.find(({id}) => id === coin.id)){
+                    this.addCoin(coin)
+                }
+                this.positionCoin(coin)
+            });
+
+            this.sprites = this.sprites.filter(sprite => {
+                if(sprite.remove){
+                    this.game.stage.removeChild(sprite.sprite)
+                    return false
+                }
+                return true
+            })
         }, 
     }
 }
 </script>
 
 <style>
+.over{
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+}
+
 canvas{
     position: relative;
     top: 50%;
@@ -117,5 +128,6 @@ canvas{
 
 .gamecontainer{
     background-color: black;
+    position: relative;
 }
 </style>
