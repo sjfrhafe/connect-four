@@ -29,7 +29,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: main-frontend
+          context: frontend
           file: ./frontend/dockerfile
           push: true
           tags: registry.simplyfred.de/cf-frontend:latest
