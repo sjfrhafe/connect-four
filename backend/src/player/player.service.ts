@@ -17,12 +17,17 @@ export class PlayerService {
         } as Player
     }
 
+    async shufflePlayer(player: Player): Promise<Player>{
+        player.avatar = await this.getRandomPlayerAvatar()
+        return player
+    }
+
     async getRandomPlayerName(): Promise<string>{
         return `${faker.hacker.ingverb()} ${faker.animal.type()}`
     }
 
     async getRandomPlayerAvatar(): Promise<string>{ //for testing purposes
-        return 'avatar_dummy.png'
+        return `avatar_${Math.floor(Math.random() * 4)}.jpg`
     }
 
     async getRandomPlayerId(): Promise<string>{

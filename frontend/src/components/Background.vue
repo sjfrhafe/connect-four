@@ -26,6 +26,7 @@ export default {
 
 .large{
     background-size: cover;
+    
     background-image: url('~@/assets/game.jpg');
 }
 </style>

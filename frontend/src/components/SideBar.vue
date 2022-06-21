@@ -2,8 +2,8 @@
   <div class="sidebar">
       <h4>invite</h4>
       <div class="input-group mb-3">
-            <b-input :value='$store.getters.key' size='sm' class='mb-2'/>
-            <b-button block variant='primary' size='sm'>Copy Link</b-button>
+            <b-input disabled :value='$store.getters.key' size='sm' class='mb-2'/>
+            <b-button @click="copyLink" block variant='primary' size='sm'>Copy Link</b-button>
       </div>
       <hr>
       <h4>players</h4>
@@ -21,6 +21,12 @@ import PlayerList from './PlayerList.vue'
 export default {
     components: { 
         PlayerList
+    }, 
+    methods: {
+        copyLink(){
+            navigator.clipboard.writeText('http://localhost:8080/#/getstarted?t=' + this.$store.getters.key)
+            this.$store.dispatch('alert', {message: 'Link Copied', type: 'success'})
+        }
     }
 }
 </script>

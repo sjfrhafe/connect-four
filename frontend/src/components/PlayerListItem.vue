@@ -1,6 +1,6 @@
 <template>
   <div :class="{'player-list-item': true, 'offline': !player.active}">
-      <img class="avatar" src="@/assets/avatar_dummy.jpg" alt="">
+      <img class="avatar" :src="avatarUrl" alt="">
       <div class='display-name'>{{displayName}}</div>
       <b-badge v-if='$store.getters.me.id === player.id' class='ml-2'>You</b-badge>
   </div>
@@ -14,13 +14,13 @@ export default {
             return this.player ? this.player.name : 'anonymous'
         }, 
         avatarUrl(){
-            return this.player ? this.player.avatar : '@/assets/avatar_dummy.png'
+            return '/avatar/' + (this.player ? this.player.avatar : 'avatar_0.jpg')
         }
     }
 }
 </script>
 
-<style>
+<style scoped>
 .player-list-item{
     display: flex;
     color: white;
@@ -59,5 +59,6 @@ export default {
     bottom: -.7em;
     font-size: .6em;
     color: red;
+    white-space: nowrap;
 }
 </style>

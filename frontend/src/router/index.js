@@ -21,7 +21,7 @@ const routes = [
     component: () => import('../views/Impressum.vue')
   }, 
   {
-    path: '/play/:joinToken', 
+    path: '/play', 
     name: 'Play', 
     component: () => import('../views/Play.vue')
   }

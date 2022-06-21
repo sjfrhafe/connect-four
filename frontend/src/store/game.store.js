@@ -26,7 +26,7 @@ export default {
         }
     }, 
     actions: {
-        connectWs({commit, state}){
+        connectWs({commit, dispatch, state}){
             commit('closeSocket')
             const socket = io('ws://localhost:3000', {
                 transports: ['websocket'], 
@@ -38,7 +38,10 @@ export default {
                 commit('updateGameState', JSON.parse(state))
             })
 
-            socket.onclose = () => router.push({name: 'Home'})
+            socket.onclose = () => {
+                router.push({name: 'GetStarted'})
+                dispatch('alert', {message: 'An error occured', type: 'danger'})
+            }
 
             commit('setSocket', socket)
         }, 

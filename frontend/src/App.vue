@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <alerts />
     <navigation />
     <router-view/>
   </div>
@@ -7,10 +8,12 @@
 
 <script>
 import Navigation from '@/components/Navigation.vue'
+import Alerts from '@/components/Alerts.vue'
 
 export default {
   components: {
-    Navigation
+    Navigation,
+    Alerts
   }
 }
 

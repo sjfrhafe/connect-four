@@ -1,4 +1,3 @@
-import { timeStamp } from 'console'
 import { Player } from 'src/player/player.entity'
 import { Room, GameRoom, gMessage } from './room.lib'
 
@@ -18,7 +17,7 @@ export class ConnectFourRoom extends Room{
             x: 8, 
             y: 4
         }, 
-        message: null
+        winner: null
     }
 
     initialized() {
@@ -90,7 +89,7 @@ export class ConnectFourRoom extends Room{
         hoverCoin.position.y = height - 1
         
         this.checkSolved(() => {
-            this.setState({status: 'finished', message: `${this.state.currentTurnPlayer.name} won the game` })
+            this.setState({status: 'finished', winner: this.state.currentTurnPlayer})
         })
 
         this.setState({coins: this.state.coins, currentTurnPlayer: this.state.playerlist.find(p => p.id !== player.id)})

@@ -1,11 +1,26 @@
 <template>
       <div class="gamecontainer" ref='gamecontainer'>
-          <div class="over">
-              <p v-if='$store.getters.gameState.currentTurnPlayer && $store.getters.gameState.status === "running"'>it is {{$store.getters.gameState.currentTurnPlayer.name}}'s turn</p>
-              <p v-if='$store.getters.gameState.message'>{{$store.getters.gameState.message}}</p>
-              <b-button v-if='$store.getters.gameState.status === "finished"' @click="emit('start')">Play Again</b-button>
-              <p v-if='$store.getters.gameState.status === "waiting"'>Waiting for Opponent</p>
-              <b-button v-if='$store.getters.gameState.status === "prepare"' @click="emit('start')">Start Game</b-button>
+            <div class="over">
+                <p v-if='$store.getters.gameState.currentTurnPlayer && $store.getters.gameState.status === "running"'>it is {{$store.getters.gameState.currentTurnPlayer.name}}'s turn</p>
+                
+            </div>
+
+            <div v-if='$store.getters.gameState.status === "waiting"' class="end-modal">
+                <h4>Waiting for Opponent</h4>
+                <p>To invite somebody just copy the link on the left hand side and send it to your friends ... or enemies. </p>
+            </div>
+
+            <div v-if='$store.getters.gameState.status === "prepare"' class="end-modal">
+                <h4 class="mb-3">ready?</h4>
+                <p>You can start the game now. Use your arrow keys to move your coin. </p>
+                <b-button variant='primary' @click="emit('start')">Start Game</b-button>
+            </div>
+
+            <div v-if='$store.getters.gameState.status === "finished"' class="end-modal">
+                <img class='mb-3' :src="'/avatar/' + $store.getters.gameState.winner.avatar" alt="">
+                <h4 class="mb-3"><span class="winner">{{$store.getters.gameState.winner.name}}</span> won the game</h4>
+                <p>you will be able to flex with your total score as soon as this function is implemented ;)</p>
+                <b-button variant='primary'  @click="emit('start')">Play Again</b-button>
             </div>
       </div>
 </template>
@@ -109,25 +124,42 @@ export default {
 
 <style>
 .over{
+    display: flex;
     color: white;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 3;
-    transform: translate(-50%, -50%);
+    padding: 8pt;
 }
 
 canvas{
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: black;
-    width: 80%;
     border: solid 1pt white;
+    width: 100%;
 }
 
 .gamecontainer{
+    display: grid;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
     background-color: black;
     position: relative;
+}
+
+.end-modal{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 3pt;
+    padding: 20pt;
+    z-index: 3;
+}
+
+.end-modal > img{
+    width: 40%;
+    border-radius: 50%;
+}
+
+.winner{
+    color: rgb(27, 182, 202);
 }
 </style>
