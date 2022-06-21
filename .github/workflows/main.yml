@@ -1,0 +1,35 @@
+name: frontend_ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout 
+        uses: actions/checkout@v2
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          registry: registry.simplyfred.de
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: main-frontend
+          file: ./frontend/dockerfile
+          push: true
+          tags: registry.simplyfred.de/cf-frontend:latest
