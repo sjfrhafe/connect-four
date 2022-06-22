@@ -117,7 +117,7 @@ export class ConnectFourRoom extends Room{
             let y = coin.position.y
             let player = getPlayer(x, y)
 
-            if(this.state.coins.length > /*3*/2){
+            if(this.state.coins.length > 32){
                 callback(false)
             }
 
