@@ -1,6 +1,6 @@
 export class Player{
     id: string
     name: string
-    avatar: string
+    avatar: number
     active?: boolean
 }

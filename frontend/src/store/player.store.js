@@ -18,6 +18,9 @@ export default {
     getters: {
         me(state){
             return state.me
+        }, 
+        avatarUrl(state){
+            return '/avatar/avatar_' + (state.me ? state.me.avatar : '0') + '.jpg'
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div :class="{'player-list-item': true, 'offline': !player.active}">
-      <img class="avatar" :src="avatarUrl" alt="">
+      <img class="avatar" :src="'/avatar/avatar_' + (player ? player.avatar : '0') + '.jpg'" alt="">
       <div class='display-name'>{{displayName}}</div>
       <b-badge v-if='$store.getters.me.id === player.id' class='ml-2'>You</b-badge>
   </div>
@@ -12,9 +12,6 @@ export default {
     computed: {
         displayName(){
             return this.player ? this.player.name : 'anonymous'
-        }, 
-        avatarUrl(){
-            return '/avatar/' + (this.player ? this.player.avatar : 'avatar_0.jpg')
         }
     }
 }

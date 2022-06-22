@@ -88,8 +88,8 @@ export class ConnectFourRoom extends Room{
 
         hoverCoin.position.y = height - 1
         
-        this.checkSolved(() => {
-            this.setState({status: 'finished', winner: this.state.currentTurnPlayer})
+        this.checkSolved((winner) => {
+            this.setState({status: 'finished', winner: winner ? this.state.currentTurnPlayer : {name: 'Nobody', avatar: -1}})
         })
 
         this.setState({coins: this.state.coins, currentTurnPlayer: this.state.playerlist.find(p => p.id !== player.id)})
@@ -117,20 +117,24 @@ export class ConnectFourRoom extends Room{
             let y = coin.position.y
             let player = getPlayer(x, y)
 
+            if(this.state.coins.length > /*3*/2){
+                callback(false)
+            }
+
             if((player === getPlayer(x + 1, y)) && (player === getPlayer(x + 2, y)) && (player === getPlayer(x + 3, y)) ){
-                callback()
+                callback(true)
             }
 
             if((player === getPlayer(x, y+1)) && (player === getPlayer(x, y+2)) && (player === getPlayer(x, y+3)) ){
-                callback()
+                callback(true)
             }
 
             if((player === getPlayer(x+1, y+1)) && (player === getPlayer(x+2, y+2)) && (player === getPlayer(x+3, y+3)) ){
-                callback()
+                callback(true)
             }
 
             if((player === getPlayer(x-1, y+1)) && (player === getPlayer(x-2, y+2)) && (player === getPlayer(x-3, y+3)) ){
-                callback()
+                callback(true)
             }
         })
     }
