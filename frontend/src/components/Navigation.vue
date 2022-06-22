@@ -1,7 +1,8 @@
 <template>
   <div class='navigation'>
       <router-link to='/'>Home</router-link>
-      <router-link to='/impressum'>Impressum und Datenschutz</router-link>
+      <a href="https://simplyfred.de/#/impressum">Impressum</a>
+      <a href="https://simplyfred.de/#/datenschutz">Datenschutz</a>
   </div>
 </template>
 
