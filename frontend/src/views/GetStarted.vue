@@ -18,7 +18,7 @@
                 <div class='right'>
                     <h4 class="mb-3">Customize your Avatar</h4>
                     <div class="avatar-large mb-2" @click='shuffle'>
-                        <img :src="'/avatar/' + $store.getters.me.avatar" alt="">
+                        <img :src="$store.getters.avatarUrl" alt="">
                     </div>
                     <b-input-group class="mt-3">
                         <b-input v-model='$store.getters.me.name'></b-input>

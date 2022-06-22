@@ -17,7 +17,7 @@
             </div>
 
             <div v-if='$store.getters.gameState.status === "finished"' class="end-modal">
-                <img class='mb-3' :src="'/avatar/' + $store.getters.gameState.winner.avatar" alt="">
+                <img class='mb-3' :src="'/avatar/avatar_' + $store.getters.gameState.winner.avatar + '.jpg'" alt="">
                 <h4 class="mb-3"><span class="winner">{{$store.getters.gameState.winner.name}}</span> won the game</h4>
                 <p>you will be able to flex with your total score as soon as this function is implemented ;)</p>
                 <b-button variant='primary'  @click="emit('start')">Play Again</b-button>
