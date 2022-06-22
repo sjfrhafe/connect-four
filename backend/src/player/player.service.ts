@@ -4,6 +4,21 @@ import { createHash } from 'crypto'
 
 @Injectable()
 export class PlayerService {
+
+    private names: string[] = [
+        'Leonard Hofstadter', 
+        'Sheldon Cooper', 
+        'Penny Hofstadter', 
+        'Howard Wolowitz', 
+        'Raj Koothrappali', 
+        'Stuart Bloom', 
+        'Leslie Winkle', 
+        'Amy Farrah Fowler', 
+        'Bernadette Rostenkowski-Wolowitz'
+    ]
+
+    private avatarCount: number = 7
+
     async getPlayer(id: number): Promise<Player>{
         return null
     }
@@ -17,16 +32,16 @@ export class PlayerService {
     }
 
     async shufflePlayer(player: Player): Promise<Player>{
-        player.avatar = await this.getRandomPlayerAvatar()
+        player.avatar = (player.avatar + this.avatarCount + 1) % this.avatarCount
         return player
     }
 
     async getRandomPlayerName(): Promise<string>{
-        return `Anonymous`
+        return this.names[Math.floor(Math.random() * this.names.length)]
     }
 
-    async getRandomPlayerAvatar(): Promise<string>{ //for testing purposes
-        return `avatar_${Math.floor(Math.random() * 4)}.jpg`
+    async getRandomPlayerAvatar(): Promise<number>{ //for testing purposes
+        return Math.floor(Math.random() * this.avatarCount)
     }
 
     async getRandomPlayerId(): Promise<string>{
